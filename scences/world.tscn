@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://jlp8yqi1s72p" path="res://sprites/tilesets/plains.png" id="3_68tjo"]
 [ext_resource type="Texture2D" uid="uid://dva41vhiw35op" path="res://objects.png" id="4_7kx3i"]
 [ext_resource type="PackedScene" uid="uid://buco08bfkmkgn" path="res://scences/enemy.tscn" id="5_68tjo"]
+[ext_resource type="Script" uid="uid://cjcg3e4vwvrfe" path="res://scripts/hud.gd" id="6_hud"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xtcbe"]
 texture = ExtResource("2_oou3t")
@@ -75,6 +76,12 @@ sources/0 = SubResource("TileSetAtlasSource_xtcbe")
 sources/1 = SubResource("TileSetAtlasSource_hfnbe")
 sources/2 = SubResource("TileSetAtlasSource_i8tw1")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
+size = Vector2(1344, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(64, 896)
+
 [node name="world" type="Node2D" unique_id=1708958768]
 y_sort_enabled = true
 
@@ -92,8 +99,39 @@ tile_map_data = PackedByteArray("AAADAAwAAgAAAAUAAAAEABoAAgAAAAUAAAAIABEAAgAAAAU
 tile_set = SubResource("TileSet_bjqgx")
 
 [node name="Player" parent="." unique_id=2024290867 instance=ExtResource("1_c3j5u")]
-position = Vector2(63, 92)
+position = Vector2(97, 122)
 collision_mask = 3
 
 [node name="Enemy" parent="." unique_id=1685799573 instance=ExtResource("5_68tjo")]
 position = Vector2(346, 259.5)
+scale = Vector2(0.89826864, 0.8665145)
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1174922365]
+
+[node name="Hearts" type="Control" parent="HUD" unique_id=11523948]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_hud")
+
+[node name="Boundary" type="StaticBody2D" parent="."]
+
+[node name="Top" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(560, -96)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="Bottom" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(560, 736)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="Left" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(-80, 320)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="Right" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(1200, 320)
+shape = SubResource("RectangleShape2D_wall_v")

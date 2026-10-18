@@ -7,8 +7,10 @@ const ARRIVE_EPSILON := 2.0
 @export var attack_release_radius: float = 64.0
 @export var attack_cooldown: float = 1.0
 @export var move_speed: float = 76.5
-@export var attack_damage: int = 1
+@export var attack_damage: float = 0.5
 @export var hit_frame: int = 3
+@export var max_hp: int = 3
+@export var hurt_time: float = 0.5
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -17,16 +19,29 @@ var _in_attack := false
 var _attacking := false
 var _cooldown := 0.0
 var _has_hit := false
+var hp: int
+var _dead := false
+var _hurt_timer := 0.0
 
 
 func _ready() -> void:
 	_spawn_position = global_position
+	hp = max_hp
 	sprite.animation_finished.connect(_on_animation_finished)
 	queue_redraw()
 
 
 func _physics_process(delta: float) -> void:
+	if _dead:
+		return
 	_cooldown = maxf(_cooldown - delta, 0.0)
+	if _hurt_timer > 0.0:
+		_hurt_timer = maxf(_hurt_timer - delta, 0.0)
+		velocity = Vector2.ZERO
+		move_and_slide()
+		if _hurt_timer == 0.0:
+			sprite.modulate = Color.WHITE
+		return
 	var target := _get_player()
 	var distance := INF if target == null else global_position.distance_to(target.global_position)
 
@@ -49,6 +64,31 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	_update_facing(desired.x)
 	_set_animation(&"move" if moving else &"idle")
+
+
+func take_damage(amount: int = 1) -> void:
+	if _dead:
+		return
+	hp = maxi(hp - amount, 0)
+	if hp == 0:
+		_die()
+		return
+	_attacking = false
+	_hurt_timer = hurt_time
+	sprite.modulate = Color(1.0, 0.5, 0.5)
+	sprite.play(&"hurt")
+
+
+func _die() -> void:
+	_dead = true
+	_attacking = false
+	_in_attack = false
+	velocity = Vector2.ZERO
+	move_and_slide()
+	sprite.modulate = Color.WHITE
+	sprite.play(&"die")
+	$CollisionShape2D.set_deferred("disabled", true)
+	queue_redraw()
 
 
 func _attack(target: Node2D) -> void:
@@ -88,6 +128,8 @@ func _update_facing(dx: float) -> void:
 
 func _draw() -> void:
 	if not OS.is_debug_build():
+		return
+	if _dead:
 		return
 	draw_arc(Vector2.ZERO, detect_radius, 0.0, TAU, 64, Color(1.0, 0.4, 0.4, 0.6), 2.0)
 	draw_arc(Vector2.ZERO, attack_radius, 0.0, TAU, 64, Color(1.0, 0.75, 0.2, 0.7), 2.0)

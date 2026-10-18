@@ -417,8 +417,8 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D" unique_id=2024290867 groups=["player"]]
-script = ExtResource("1_3j5lm")
 motion_mode = 1
+script = ExtResource("1_3j5lm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=986519996]
 scale = Vector2(1.412845, 0.70161843)
@@ -430,3 +430,13 @@ position = Vector2(-0.99999994, -26)
 scale = Vector2(1.7916666, 1.6458334)
 sprite_frames = SubResource("SpriteFrames_31vf2")
 animation = &"idle_down"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1485227804]
+scale = Vector2(-4.6, -0.6)
+zoom = Vector2(2, 2)
+limit_left = 0
+limit_top = 0
+limit_right = 1152
+limit_bottom = 650
+position_smoothing_enabled = true
+position_smoothing_speed = 2.5

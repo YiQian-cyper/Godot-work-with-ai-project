@@ -209,7 +209,7 @@ animations = [{
 "speed": 7.0
 }]
 
-[node name="Enemy" type="CharacterBody2D" unique_id=1685799573]
+[node name="Enemy" type="CharacterBody2D" unique_id=1685799573 groups=["enemy"]]
 motion_mode = 1
 script = ExtResource("2_enemy")
 attack_cooldown = 1.5
