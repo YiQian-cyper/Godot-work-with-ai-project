@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+const PORTAL_SCRIPT := preload("res://scripts/portal.gd")
+
 signal health_changed(current: float, maximum: float)
 
 const HURT_COLOR := Color(1.0, 0.4, 0.4)
@@ -26,6 +28,27 @@ var _attack_hit := false
 func _ready() -> void:
 	hp = float(max_hp)
 	sprite.animation_finished.connect(_on_animation_finished)
+	_apply_spawn()
+	_reset_camera_smoothing.call_deferred()
+
+
+func _reset_camera_smoothing() -> void:
+	var cam := get_node_or_null("Camera2D") as Camera2D
+	if cam != null:
+		cam.reset_smoothing()
+
+
+func _apply_spawn() -> void:
+	var spawn_name: StringName = PORTAL_SCRIPT.pending_spawn
+	if spawn_name == &"":
+		return
+	PORTAL_SCRIPT.pending_spawn = &""
+	var host := get_parent()
+	if host == null:
+		return
+	var marker := host.find_child(String(spawn_name), true, false) as Node2D
+	if marker != null:
+		global_position = marker.global_position
 
 
 func _physics_process(delta: float) -> void:
@@ -114,7 +137,7 @@ func _on_animation_finished() -> void:
 func _clamp_to_screen() -> void:
 	if not keep_on_screen:
 		return
-	var view := _visible_world_rect()
+	var view := _camera_range()
 	if view.size == Vector2.ZERO:
 		return
 	var bounds := _sprite_bounds()
@@ -122,11 +145,14 @@ func _clamp_to_screen() -> void:
 	global_position.y = clampf(global_position.y, view.position.y - bounds.position.y, view.end.y - bounds.end.y)
 
 
-func _visible_world_rect() -> Rect2:
-	var canvas := get_viewport().get_canvas_transform()
-	var screen := get_viewport_rect()
-	var to_world := canvas.affine_inverse()
-	return Rect2(to_world * screen.position, Vector2.ZERO).expand(to_world * screen.end)
+func _camera_range() -> Rect2:
+	var cam := get_viewport().get_camera_2d()
+	if cam == null:
+		return get_viewport_rect()
+	return Rect2(
+		Vector2(cam.limit_left, cam.limit_top),
+		Vector2(cam.limit_right - cam.limit_left, cam.limit_bottom - cam.limit_top)
+	)
 
 
 func _sprite_bounds() -> Rect2:
