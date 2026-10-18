@@ -1,0 +1,228 @@
+[gd_scene format=3 uid="uid://buco08bfkmkgn"]
+
+[ext_resource type="Texture2D" uid="uid://cu1nyvay4j7xd" path="res://sprites/characters/slime.png" id="1_slime"]
+[ext_resource type="Script" uid="uid://dhnw8m17y8tr2" path="res://scripts/enemy.gd" id="2_enemy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_slm"]
+radius = 20.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jmp0"]
+atlas = ExtResource("1_slime")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jmp1"]
+atlas = ExtResource("1_slime")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jmp2"]
+atlas = ExtResource("1_slime")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jmp3"]
+atlas = ExtResource("1_slime")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jmp4"]
+atlas = ExtResource("1_slime")
+region = Rect2(128, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jmp5"]
+atlas = ExtResource("1_slime")
+region = Rect2(160, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jmp6"]
+atlas = ExtResource("1_slime")
+region = Rect2(192, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_die0"]
+atlas = ExtResource("1_slime")
+region = Rect2(0, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_die1"]
+atlas = ExtResource("1_slime")
+region = Rect2(32, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_die2"]
+atlas = ExtResource("1_slime")
+region = Rect2(64, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_die3"]
+atlas = ExtResource("1_slime")
+region = Rect2(96, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_die4"]
+atlas = ExtResource("1_slime")
+region = Rect2(128, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hrt0"]
+atlas = ExtResource("1_slime")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hrt1"]
+atlas = ExtResource("1_slime")
+region = Rect2(32, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hrt2"]
+atlas = ExtResource("1_slime")
+region = Rect2(64, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idl0"]
+atlas = ExtResource("1_slime")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idl1"]
+atlas = ExtResource("1_slime")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idl2"]
+atlas = ExtResource("1_slime")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idl3"]
+atlas = ExtResource("1_slime")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_slm0"]
+atlas = ExtResource("1_slime")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_slm1"]
+atlas = ExtResource("1_slime")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_slm2"]
+atlas = ExtResource("1_slime")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_slm3"]
+atlas = ExtResource("1_slime")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_slm4"]
+atlas = ExtResource("1_slime")
+region = Rect2(128, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_slm5"]
+atlas = ExtResource("1_slime")
+region = Rect2(160, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_slime"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jmp0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jmp1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jmp2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jmp3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jmp4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jmp5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jmp6")
+}],
+"loop": 0,
+"name": &"attack",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die4")
+}],
+"loop": 0,
+"name": &"die",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hrt0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hrt1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hrt2")
+}],
+"loop": 0,
+"name": &"hurt",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idl0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idl1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idl2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idl3")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_slm0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_slm1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_slm2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_slm3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_slm4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_slm5")
+}],
+"loop": 1,
+"name": &"move",
+"speed": 7.0
+}]
+
+[node name="Enemy" type="CharacterBody2D" unique_id=1685799573]
+motion_mode = 1
+script = ExtResource("2_enemy")
+attack_cooldown = 1.5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1546886005]
+position = Vector2(0, 15.999999)
+scale = Vector2(1.0649788, 0.29182455)
+shape = SubResource("CircleShape2D_slm")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=819080131]
+texture_filter = 1
+position = Vector2(-2.9802322e-08, -1.9073486e-06)
+scale = Vector2(2.53125, 2.59375)
+sprite_frames = SubResource("SpriteFrames_slime")
+animation = &"idle"
+autoplay = "idle"

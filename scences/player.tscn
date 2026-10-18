@@ -3,6 +3,9 @@
 [ext_resource type="Script" uid="uid://bq2tatugfekjd" path="res://scripts/player.gd" id="1_3j5lm"]
 [ext_resource type="Texture2D" uid="uid://cknecrk0i3axf" path="res://sprites/characters/player.png" id="2_efpdg"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_oou3t"]
+radius = 7.5474176
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_s9e6m"]
 atlas = ExtResource("2_efpdg")
 region = Rect2(0, 288, 48, 48)
@@ -413,12 +416,17 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="Player" type="CharacterBody2D" unique_id=2024290867]
+[node name="Player" type="CharacterBody2D" unique_id=2024290867 groups=["player"]]
 script = ExtResource("1_3j5lm")
+motion_mode = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=986519996]
+scale = Vector2(1.412845, 0.70161843)
+shape = SubResource("CircleShape2D_oou3t")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1085164952]
 texture_filter = 1
+position = Vector2(-0.99999994, -26)
+scale = Vector2(1.7916666, 1.6458334)
 sprite_frames = SubResource("SpriteFrames_31vf2")
-animation = &"walk_up"
+animation = &"idle_down"
