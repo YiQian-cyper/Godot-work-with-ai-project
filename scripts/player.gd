@@ -14,6 +14,7 @@ const HURT_COLOR := Color(1.0, 0.4, 0.4)
 @export var attack_range: float = 52.0
 @export var attack_hit_frame: int = 1
 @export var keep_on_screen: bool = true
+@export_file("*.tscn") var game_over_scene: String = "res://scences/gameover.tscn"
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -132,6 +133,9 @@ func _facing_vector() -> Vector2:
 func _on_animation_finished() -> void:
 	if _attacking:
 		_attacking = false
+		return
+	if _dead:
+		get_tree().call_deferred("change_scene_to_file", game_over_scene)
 
 
 func _clamp_to_screen() -> void:
