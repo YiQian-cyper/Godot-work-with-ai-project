@@ -17,6 +17,7 @@ const PLAYER_STARTS := {
 	"attack_down": 36,
 	"attack_right": 42,
 	"attack_up": 48,
+	"death": 54,
 }
 const PLAYER_COUNTS := {
 	"idle_down": 6,
@@ -28,6 +29,7 @@ const PLAYER_COUNTS := {
 	"attack_down": 4,
 	"attack_right": 4,
 	"attack_up": 4,
+	"death": 3,
 }
 
 const SLIME_CELL := 32
@@ -42,6 +44,8 @@ const SLIME_COLS := 7
 @export var partner_path: NodePath
 @export var attack_distance: float = 100.0
 @export var attack_cooldown: float = 1.5
+@export var death_chance: float = 0.5
+@export var respawn_delay: float = 2.0
 
 var _target := Vector2.ZERO
 var _idle := 0.0
@@ -49,6 +53,8 @@ var _facing := "down"
 var _partner: Node2D = null
 var _attacking := false
 var _cooldown := 0.0
+var _dead := false
+var _respawn_timer := 0.0
 
 
 func _ready() -> void:
@@ -61,6 +67,11 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	if _dead:
+		_respawn_timer -= delta
+		if _respawn_timer <= 0.0:
+			_respawn()
+		return
 	if _attacking:
 		return
 	_cooldown = maxf(_cooldown - delta, 0.0)
@@ -83,8 +94,14 @@ func _process(delta: float) -> void:
 	_set_animation(_walk_anim())
 
 
+func is_dead() -> bool:
+	return _dead
+
+
 func _can_attack() -> bool:
 	if _partner == null or _cooldown > 0.0:
+		return false
+	if _partner.has_method("is_dead") and bool(_partner.call("is_dead")):
 		return false
 	return global_position.distance_to(_partner.global_position) <= attack_distance
 
@@ -97,11 +114,33 @@ func _start_attack() -> void:
 
 
 func _on_animation_finished() -> void:
-	if not _attacking:
+	if _dead or not _attacking:
 		return
 	_attacking = false
+	if randf() < death_chance:
+		_die()
+		return
 	_cooldown = attack_cooldown
 	_pick_target(true)
+	_set_animation(_idle_anim())
+
+
+func _die() -> void:
+	_dead = true
+	_attacking = false
+	_idle = 0.0
+	_respawn_timer = respawn_delay
+	play(_death_anim())
+
+
+func _respawn() -> void:
+	_dead = false
+	_attacking = false
+	_cooldown = 0.0
+	_idle = 0.0
+	var area := _wander_rect()
+	position = Vector2(randf_range(area.position.x, area.end.x), randf_range(area.position.y, area.end.y))
+	_pick_target()
 	_set_animation(_idle_anim())
 
 
@@ -158,6 +197,10 @@ func _attack_anim() -> StringName:
 	return &"attack" if actor == Actor.SLIME else StringName("attack_" + _anim_dir())
 
 
+func _death_anim() -> StringName:
+	return &"die" if actor == Actor.SLIME else &"death"
+
+
 func _set_animation(anim_name: StringName) -> void:
 	if animation != anim_name:
 		play(anim_name)
@@ -172,7 +215,8 @@ func _build_player_frames() -> SpriteFrames:
 	frames.remove_animation(&"default")
 	for key in PLAYER_STARTS:
 		var anim_name := String(key)
-		_add_animation(frames, PLAYER_SHEET, PLAYER_CELL, PLAYER_COLS, anim_name, PLAYER_STARTS[key], PLAYER_COUNTS[key], 8.0, not anim_name.begins_with("attack"))
+		var loop := anim_name.begins_with("idle") or anim_name.begins_with("walk")
+		_add_animation(frames, PLAYER_SHEET, PLAYER_CELL, PLAYER_COLS, anim_name, PLAYER_STARTS[key], PLAYER_COUNTS[key], 8.0, loop)
 	return frames
 
 
@@ -182,6 +226,7 @@ func _build_slime_frames() -> SpriteFrames:
 	_add_animation(frames, SLIME_SHEET, SLIME_CELL, SLIME_COLS, "idle", 0, 4, 9.0, true)
 	_add_animation(frames, SLIME_SHEET, SLIME_CELL, SLIME_COLS, "move", SLIME_COLS, 6, 7.0, true)
 	_add_animation(frames, SLIME_SHEET, SLIME_CELL, SLIME_COLS, "attack", SLIME_COLS * 2, 7, 6.0, false)
+	_add_animation(frames, SLIME_SHEET, SLIME_CELL, SLIME_COLS, "die", SLIME_COLS * 4, 5, 10.0, false)
 	return frames
 
 
