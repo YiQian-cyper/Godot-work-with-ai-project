@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/title.gd" id="1_title"]
-[ext_resource type="Script" path="res://scripts/title_walker.gd" id="2_walker"]
+[ext_resource type="Script" path="res://scripts/bg_actor.gd" id="2_walker"]
 
 [sub_resource type="SystemFont" id="SystemFont_ui"]
 font_names = PackedStringArray("Microsoft YaHei", "SimHei", "Noto Sans CJK SC", "sans-serif")
