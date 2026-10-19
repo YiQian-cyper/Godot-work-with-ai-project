@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="AITestGame"
-run/main_scene="uid://ctsjlr6h5yabp"
+run/main_scene="res://scences/title.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
