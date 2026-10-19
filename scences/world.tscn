@@ -24,13 +24,21 @@ texture = ExtResource("3_68tjo")
 2:0/0 = 0
 2:1/0 = 0
 1:4/0 = 0
+1:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:5/0 = 0
+1:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:6/0 = 0
+1:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 2:6/0 = 0
+2:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 3:6/0 = 0
+3:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 3:5/0 = 0
+3:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 3:4/0 = 0
+3:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 2:4/0 = 0
+2:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 2:5/0 = 0
 5:1/0 = 0
 4:1/0 = 0
@@ -100,22 +108,35 @@ tile_map_data = PackedByteArray("AAADAAwAAgAAAAUAAAAEABoAAgAAAAUAAAAIABEAAgAAAAU
 tile_set = SubResource("TileSet_bjqgx")
 
 [node name="Player" parent="." unique_id=2024290867 instance=ExtResource("1_c3j5u")]
-position = Vector2(97, 122)
+position = Vector2(1067, 108)
 collision_mask = 3
 
 [node name="Enemy" parent="." unique_id=1685799573 instance=ExtResource("5_68tjo")]
 position = Vector2(346, 259.5)
 scale = Vector2(0.89826864, 0.8665145)
 
+[node name="Enemy" parent="Enemy" unique_id=1610388034 instance=ExtResource("5_68tjo")]
+position = Vector2(346, 259.5)
+scale = Vector2(0.89826864, 0.8665145)
+
+[node name="Enemy" parent="Enemy/Enemy" unique_id=2090099296 instance=ExtResource("5_68tjo")]
+position = Vector2(258.02765, -111.02192)
+scale = Vector2(0.89826864, 0.8665145)
+
+[node name="Enemy" parent="Enemy/Enemy/Enemy" unique_id=535783007 instance=ExtResource("5_68tjo")]
+position = Vector2(-235.92688, -285.8811)
+scale = Vector2(0.89826864, 0.8665145)
+
 [node name="Portal" parent="." unique_id=295885443 instance=ExtResource("7_portal")]
-position = Vector2(353, 53)
+position = Vector2(45, 73)
 target_scene = "res://scences/world2.tscn"
 target_spawn = &"SpawnFromWorld"
 
-[node name="SpawnFromWorld2" type="Marker2D" parent="."]
-position = Vector2(700, 470)
+[node name="SpawnFromWorld2" type="Marker2D" parent="." unique_id=219258497]
+position = Vector2(1073, 97)
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=1174922365]
+visible = false
 
 [node name="Hearts" type="Control" parent="HUD" unique_id=11523948]
 layout_mode = 3
