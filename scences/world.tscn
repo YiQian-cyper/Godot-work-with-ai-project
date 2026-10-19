@@ -136,7 +136,6 @@ target_spawn = &"SpawnFromWorld"
 position = Vector2(1073, 97)
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=1174922365]
-visible = false
 
 [node name="Hearts" type="Control" parent="HUD" unique_id=11523948]
 layout_mode = 3

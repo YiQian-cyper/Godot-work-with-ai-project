@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/title.gd" id="1_title"]
 [ext_resource type="Script" path="res://scripts/bg_actor.gd" id="2_walker"]
+[ext_resource type="Script" path="res://scripts/tremble.gd" id="3_tremble"]
+[ext_resource type="Script" path="res://scripts/jelly_button.gd" id="4_jelly"]
 
 [sub_resource type="SystemFont" id="SystemFont_ui"]
 font_names = PackedStringArray("Microsoft YaHei", "SimHei", "Noto Sans CJK SC", "sans-serif")
@@ -49,9 +51,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -520.0
-offset_top = -100.0
+offset_top = -170.0
 offset_right = 520.0
-offset_bottom = 100.0
+offset_bottom = 170.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 48
@@ -63,6 +65,18 @@ theme_override_font_sizes/font_size = 48
 text = "Code Kid Adventure in God's world"
 horizontal_alignment = 1
 autowrap_mode = 3
+script = ExtResource("3_tremble")
+amplitude = 1.5
+
+[node name="DifficultyButton" type="Button" parent="Menu"]
+custom_minimum_size = Vector2(260, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = SubResource("SystemFont_ui")
+theme_override_font_sizes/font_size = 24
+text = "Difficulty: Medium"
+
+[node name="DifficultyMenu" type="PopupMenu" parent="Menu/DifficultyButton"]
 
 [node name="StartButton" type="Button" parent="Menu"]
 custom_minimum_size = Vector2(260, 64)
@@ -71,3 +85,4 @@ size_flags_horizontal = 4
 theme_override_fonts/font = SubResource("SystemFont_ui")
 theme_override_font_sizes/font_size = 32
 text = "Start"
+script = ExtResource("4_jelly")

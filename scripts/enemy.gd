@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+const GameState := preload("res://scripts/game_state.gd")
+
 const ARRIVE_EPSILON := 2.0
 
 @export var detect_radius: float = 150.0
@@ -7,7 +9,6 @@ const ARRIVE_EPSILON := 2.0
 @export var attack_release_radius: float = 64.0
 @export var attack_cooldown: float = 1.0
 @export var move_speed: float = 76.5
-@export var attack_damage: float = 0.5
 @export var hit_frame: int = 3
 @export var max_hp: int = 3
 @export var hurt_time: float = 0.5
@@ -102,7 +103,7 @@ func _attack(target: Node2D) -> void:
 	if _attacking and not _has_hit and sprite.frame >= hit_frame:
 		_has_hit = true
 		if global_position.distance_to(target.global_position) <= attack_radius and target.has_method("take_damage"):
-			target.call("take_damage", attack_damage)
+			target.call("take_damage", GameState.damage_per_hit())
 
 
 func _on_animation_finished() -> void:
@@ -113,11 +114,16 @@ func _on_animation_finished() -> void:
 
 
 func _desired_velocity(chasing: bool, target: Node2D) -> Vector2:
+	var current_speed := _current_move_speed()
 	if chasing:
-		return global_position.direction_to(target.global_position) * move_speed
+		return global_position.direction_to(target.global_position) * current_speed
 	if global_position.distance_to(_spawn_position) > ARRIVE_EPSILON:
-		return global_position.direction_to(_spawn_position) * move_speed
+		return global_position.direction_to(_spawn_position) * current_speed
 	return Vector2.ZERO
+
+
+func _current_move_speed() -> float:
+	return move_speed * GameState.slime_speed_multiplier()
 
 
 func _update_facing(dx: float) -> void:
