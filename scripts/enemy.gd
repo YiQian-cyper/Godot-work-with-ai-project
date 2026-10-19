@@ -84,12 +84,7 @@ func _die() -> void:
 	_dead = true
 	_attacking = false
 	_in_attack = false
-	velocity = Vector2.ZERO
-	move_and_slide()
-	sprite.modulate = Color.WHITE
-	sprite.play(&"die")
-	$CollisionShape2D.set_deferred("disabled", true)
-	queue_redraw()
+	queue_free()
 
 
 func _attack(target: Node2D) -> void:
