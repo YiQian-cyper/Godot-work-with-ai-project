@@ -4,6 +4,8 @@ const PORTAL_SCRIPT := preload("res://scripts/portal.gd")
 
 signal health_changed(current: float, maximum: float)
 
+static var pending_hp: float = -1.0
+
 const HURT_COLOR := Color(1.0, 0.4, 0.4)
 
 @export var speed: float = 120.0
@@ -27,10 +29,15 @@ var _attack_hit := false
 
 
 func _ready() -> void:
-	hp = float(max_hp)
+	hp = float(max_hp) if pending_hp < 0.0 else minf(pending_hp, float(max_hp))
+	pending_hp = -1.0
 	sprite.animation_finished.connect(_on_animation_finished)
 	_apply_spawn()
 	_reset_camera_smoothing.call_deferred()
+
+
+func _exit_tree() -> void:
+	pending_hp = hp if hp > 0.0 else -1.0
 
 
 func _reset_camera_smoothing() -> void:

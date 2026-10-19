@@ -12,6 +12,7 @@ const ARRIVE_EPSILON := 2.0
 @export var hit_frame: int = 3
 @export var max_hp: int = 3
 @export var hurt_time: float = 0.5
+@export var corpse_time: float = 1.0
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -84,7 +85,13 @@ func _die() -> void:
 	_dead = true
 	_attacking = false
 	_in_attack = false
-	queue_free()
+	velocity = Vector2.ZERO
+	move_and_slide()
+	sprite.modulate = Color.WHITE
+	sprite.play(&"die")
+	$CollisionShape2D.set_deferred("disabled", true)
+	queue_redraw()
+	get_tree().create_timer(corpse_time).timeout.connect(queue_free)
 
 
 func _attack(target: Node2D) -> void:
